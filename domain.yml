@@ -1,0 +1,27 @@
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+
+entities:
+  - name
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I help you today?"
+
+  utter_goodbye:
+    - text: "Goodbye! Have a great day!"
+
+  utter_affirm:
+    - text: "Great! What else can I do for you?"
+
+  utter_deny:
+    - text: "I'm sorry to hear that. How can I assist you further?"
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
