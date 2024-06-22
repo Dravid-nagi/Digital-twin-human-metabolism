@@ -7,14 +7,17 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            height: 100vh;
         }
         .chat-container {
             width: 400px;
+            height: 70vh;
             border: 1px solid #ccc;
             border-radius: 5px;
             background: #fff;
@@ -22,11 +25,14 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            position: relative;
+            margin: 20px;
         }
         .chat-box {
             padding: 10px;
             flex: 1;
             overflow-y: auto;
+            background-color: #fafafa;
         }
         .input-container {
             display: flex;
@@ -37,6 +43,7 @@
             padding: 10px;
             border: none;
             outline: none;
+            font-size: 16px;
         }
         .send-button {
             padding: 10px;
@@ -44,6 +51,7 @@
             background-color: #007bff;
             color: white;
             cursor: pointer;
+            font-size: 16px;
         }
         .send-button:hover {
             background-color: #0056b3;
@@ -52,6 +60,7 @@
             margin: 5px 0;
             padding: 10px;
             border-radius: 5px;
+            max-width: 80%;
         }
         .user-message {
             background-color: #007bff;
@@ -59,7 +68,7 @@
             align-self: flex-end;
         }
         .bot-message {
-            background-color: #f4f4f4;
+            background-color: #e9e9e9;
             align-self: flex-start;
         }
     </style>
