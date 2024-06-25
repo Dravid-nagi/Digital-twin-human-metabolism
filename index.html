@@ -6,52 +6,82 @@
     <title>Rasa Chatbot</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
-        }
+            margin: 0;
+       
+            background-size: cover;
+            backdrop-filter: blur(10px);
+            
         .chat-container {
-            width: 400px;
+            width: 100%;
+            max-width: 800px;
+            height: 90vh;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+           
+            background-size: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             overflow: hidden;
+        }
+        .chat-header {
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            font-weight: bold;
         }
         .chat-box {
             padding: 10px;
             flex: 1;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            backdrop-filter: blur(10px);
         }
         .input-container {
             display: flex;
             border-top: 1px solid #ccc;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
         }
         .input-box {
             flex: 1;
             padding: 10px;
-            border: none;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             outline: none;
+            transition: border-color 0.3s;
+        }
+        .input-box:focus {
+            border-color: #007bff;
         }
         .send-button {
-            padding: 10px;
+            padding: 10px 20px;
             border: none;
             background-color: #007bff;
             color: white;
+            border-radius: 5px;
             cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
         }
         .send-button:hover {
             background-color: #0056b3;
         }
         .message {
             margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-out;
         }
         .user-message {
             background-color: #007bff;
@@ -59,13 +89,24 @@
             align-self: flex-end;
         }
         .bot-message {
-            background-color: #f4f4f4;
+            background-color: #f1f1f1;
             align-self: flex-start;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
     <div class="chat-container">
+        <div class="chat-header">Chat with Rasa Bot</div>
         <div class="chat-box" id="chat-box"></div>
         <div class="input-container">
             <input type="text" id="user-input" class="input-box" placeholder="Type a message...">
@@ -83,18 +124,27 @@
             appendMessage(message, 'user-message');
             userInput.value = "";
 
-            const response = await fetch('http://localhost:5005/webhooks/rest/webhook', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ sender: 'user', message: message })
-            });
+            try {
+                const response = await fetch('http://localhost:5005/webhooks/rest/webhook', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ sender: 'user', message: message })
+                });
 
-            const data = await response.json();
-            data.forEach(msg => {
-                appendMessage(msg.text, 'bot-message');
-            });
+                if (!response.ok) {
+                    appendMessage("Error: Could not connect to the server.", 'bot-message');
+                    return;
+                }
+
+                const data = await response.json();
+                data.forEach(msg => {
+                    appendMessage(msg.text, 'bot-message');
+                });
+            } catch (error) {
+                appendMessage("Error: Could not connect to the server.", 'bot-message');
+            }
         }
 
         function appendMessage(text, className) {
@@ -104,6 +154,12 @@
             chatBox.appendChild(messageElement);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
+
+        userInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
     </script>
 </body>
 </html>
