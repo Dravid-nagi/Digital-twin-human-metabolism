@@ -2,164 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rasa Chatbot</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-          s  background-size: cover;
-            backdrop-filter: blur(10px);
-            
-        .chat-container {
-            width: 100%;
-            max-width: 800px;
-            height: 90vh;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-           
-            background-size: cover;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .chat-header {
-            padding: 15px;
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-            font-weight: bold;
-        }
-        .chat-box {
-            padding: 10px;
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            backdrop-filter: blur(10px);
-        }
-        .input-container {
-            display: flex;
-            border-top: 1px solid #ccc;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-        .input-box {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .input-box:focus {
-            border-color: #007bff;
-        }
-        .send-button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: background-color 0.3s;
-        }
-        .send-button:hover {
-            background-color: #0056b3;
-        }
-        .message {
-            margin: 5px 0;
-
-            padding: 10px 15px;
-            border-radius: 20px;
-            max-width: 80%;
-            word-wrap: break-word;
-            animation: fadeIn 0.3s ease-out;
-        }
-        .user-message {
-            background-color: #007bff;
-            color: white;
-            align-self: flex-end;
-        }
-        .bot-message {
-            background-color: #f1f1f1;
-            align-self: flex-start;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+    <title>Carousel Example</title>
+    <link rel="stylesheet" href="web/page1/styles.css">
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-header">Chat with Rasa Bot</div>
-        <div class="chat-box" id="chat-box"></div>
-        <div class="input-container">
-            <input type="text" id="user-input" class="input-box" placeholder="Type a message...">
-            <button class="send-button" onclick="sendMessage()">Send</button>
+    <header class="header">
+        <div class="logo">MyLogo</div>
+        <nav class="nav">
+            <button class="nav-button">Login</button>
+            <button class="nav-button">Signup</button>
+        </nav>
+    </header>
+
+    <div class="carousel-container">
+        <div class="carousel-slide active">
+            <img src="web/page1/pic/d1.jpg" alt="Slide 1">
         </div>
+        <div class="carousel-slide">
+            <img src="web/page1/pic/d2.jpg" alt="Slide 2">
+        </div>
+        <div class="carousel-slide">
+            <img src="web/page1/pic/d3.jpg" alt="Slide 3">
+        </div>
+        <!-- Add more slides as needed -->
+
+        <!-- Navigation buttons -->
+        <button class="carousel-button prev" onclick="prevSlide()">&#10094;</button>
+        <button class="carousel-button next" onclick="nextSlide()">&#10095;</button>
     </div>
-    <script>
-        const chatBox = document.getElementById('chat-box');
-        const userInput = document.getElementById('user-input');
 
-        async function sendMessage() {
-            const message = userInput.value.trim();
-            if (message === "") return;
+    <!-- Dots navigation -->
+    <div class="carousel-dots">
+        <span class="carousel-dot active" onclick="currentSlide(0)"></span>
+        <span class="carousel-dot" onclick="currentSlide(1)"></span>
+        <span class="carousel-dot" onclick="currentSlide(2)"></span>
+        <!-- Add more dots as needed -->
+    </div>
 
-            appendMessage(message, 'user-message');
-            userInput.value = "";
 
-            try {
-                const response = await fetch('http://localhost:5005/webhooks/rest/webhook', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ sender: 'user', message: message })
-                });
+    <div class="container ai-agent">
+        <h2>AI Agent</h2>
+        <p>This section contains information about an AI agent. The AI agent can assist with various tasks and provide insightful information.</p>
+        <button class="nav-button">Go to AI Agent</button>
+    </div>
 
-                if (!response.ok) {
-                    appendMessage("Error: Could not connect to the server.", 'bot-message');
-                    return;
-                }
+    <footer class="footer">
+        <div class="footer-content">© 2024 MyWebsite. All rights reserved.</div>
+    </footer>
 
-                const data = await response.json();
-                data.forEach(msg => {
-                    appendMessage(msg.text, 'bot-message');
-                });
-            } catch (error) {
-                appendMessage("Error: Could not connect to the server.", 'bot-message');
-            }
-        }
-
-        function appendMessage(text, className) {
-            const messageElement = document.createElement('div');
-            messageElement.className = `message ${className}`;
-            messageElement.innerText = text;
-            chatBox.appendChild(messageElement);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        userInput.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                sendMessage();
-            }
-        });
-    </script>
+    <script src="web/page1/scripts.js"></script>
 </body>
 </html>
