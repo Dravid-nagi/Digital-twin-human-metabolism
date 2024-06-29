@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasa Chatbot</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">MyLogo</div>
+        <nav class="nav">
+            <a href="../about/page3.html" class="nav-link">About Us</a>
+
+	    <button class="nav-button" onclick="redirectToHome()">Home</button>
+            <button class="nav-button">Login</button>
+            <button class="nav-button">Signup</button>
+        </nav>
+    </header>
+
+    <div class="chat-container">
+        <div class="chat-header">Chat with Rasa Bot</div>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" class="input-box" placeholder="Type a message...">
+            <button class="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About Us</h3>
+                <p>We are a company dedicated to providing the best solutions for diabetes management and education.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p>Email: info@company.com</p>
+                <p>Phone: +123-456-7890</p>
+                <p>Address: 123 Diabetes Lane, Health City, HC 45678</p>
+            </div>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><img src="../pic/facebook.png" alt="Facebook"></a>
+                    <a href="#"><img src="../pic/twitter.png" alt="Twitter"></a>
+                    <a href="#"><img src="../pic/instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="../pic/linkedin.png" alt="LinkedIn"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 MyWebsite. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="scripts2.js"></script>
+</body>
+</html>
